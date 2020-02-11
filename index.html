@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue待办事项</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/index.css"/>
+</head>
+<body>
+    <section id="todoapp">
+        <h1>Vue记事本</h1>
+        <header class="header">
+            <input autofocus="autofocus" autocomplete="off" placeholder="请输入待办事项"
+                   class="new-todo" @keyup.enter="addTodo(newTodo)" v-model="newTodo">
+        </header>
+        <!-- 待办事项区域 -->
+        <section class="main">
+            <ul class="todo-list">
+                <li class="todo" v-for="(todo,index) in todoList">
+                    <div class="view">
+                        <span class="index">{{index+1}}.</span>
+                        <label>{{todo}}</label>
+                        <button class="destroy" @click="delTodo(index)"></button>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <footer class="footer">
+            <span class="todo-count"> {{ todoNum}} left</span>
+        </footer>
+
+    </section>
+    <footer class="info"></footer>
+<script>
+    var app = new Vue({
+        el:"#todoapp",
+        data:{
+            newTodo:"",
+            todoList:[]
+        },
+        methods:{
+            addTodo: function (newTodo) {
+                if(newTodo.length>0){
+                    this.todoList.push(newTodo)
+                    this.newTodo=""
+                }
+            },
+            delTodo: function (delIndex) {
+                console.log(this.todoList)
+                this.todoList.splice(delIndex,1)
+                console.log(this.todoList)
+            }
+        },
+        computed:{
+            todoNum: function () {
+                return this.todoList.length
+
+            }
+        }
+
+    })
+</script>
+</body>
+</html>
