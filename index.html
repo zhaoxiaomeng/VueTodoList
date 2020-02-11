@@ -10,6 +10,7 @@
 <body>
     <section id="todoapp">
         <h1>Vue记事本</h1>
+        <!--代办事输入区域-->
         <header class="header">
             <input autofocus="autofocus" autocomplete="off" placeholder="请输入待办事项"
                    class="new-todo" @keyup.enter="addTodo(newTodo)" v-model="newTodo">
@@ -26,9 +27,16 @@
                 </li>
             </ul>
         </section>
-
-        <footer class="footer">
-            <span class="todo-count"> {{ todoNum}} left</span>
+        <!--统计区域-->
+        <footer class="footer" v-show="todoList.length>0">
+            <span class="todo-count">
+                <strong>{{ todoNum}}</strong>
+                <span v-show="todoList.length>1">items left</span>
+                <span v-show="todoList.length<=1">item left</span>
+            </span>
+            <button class="clear-completed" @click="clearTodo">
+                Clear
+            </button>
         </footer>
 
     </section>
@@ -40,17 +48,20 @@
             newTodo:"",
             todoList:[]
         },
-        methods:{
+        methods: {
             addTodo: function (newTodo) {
-                if(newTodo.length>0){
+                if (newTodo.length > 0) {
                     this.todoList.push(newTodo)
-                    this.newTodo=""
+                    this.newTodo = ""
                 }
             },
             delTodo: function (delIndex) {
-                console.log(this.todoList)
-                this.todoList.splice(delIndex,1)
-                console.log(this.todoList)
+                console.log("删除任务：" + delIndex)
+                this.todoList.splice(delIndex, 1)
+            },
+            clearTodo: function () {
+                console.log("清空任务")
+                this.todoList = []
             }
         },
         computed:{
